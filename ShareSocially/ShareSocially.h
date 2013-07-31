@@ -10,12 +10,13 @@
 #import <Foundation/Foundation.h>
 
 @protocol BGShareDelegate <NSObject>
+-(void)BGSSpresentVC:(UIViewController *)viewController;
+-(void)BGSSpresentActivityVC:(UIViewController *)viewController;
 -(void)BGSSdismissVC;
+@optional
 -(void)BGSSshareFailed;
 -(void)BGSSshareCompleted;
 -(void)BGSSshareCancelled;
--(void)BGSSpresentVC:(UIViewController *)viewController;
--(void)BGSSpresentActivityVC:(UIViewController *)viewController;
 @end
 
 

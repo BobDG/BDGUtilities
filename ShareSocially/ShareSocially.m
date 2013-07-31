@@ -86,7 +86,21 @@
         if(nil != image)
             [activities addObject:image];
         
-        UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:activities applicationActivities:nil];        
+        UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:activities applicationActivities:nil];
+        
+        //Completion handler
+        [controller setCompletionHandler:^(NSString *activityType, BOOL completed)
+        {
+            if(completed)
+            {
+                if([self.delegate respondsToSelector:@selector(BGSSdismissVC)])
+                {
+                    [self.delegate BGSSdismissVC];
+                }
+            }            
+        }];
+        
+        //Presenting
         if([self.delegate respondsToSelector:@selector(BGSSpresentActivityVC:)])
         {
             [self.delegate BGSSpresentActivityVC:controller];
