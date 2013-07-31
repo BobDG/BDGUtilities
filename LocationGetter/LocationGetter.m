@@ -1,5 +1,5 @@
 //  LocationGetter.m
-//  Created by Bob de Graaf on 01-10-10.
+//  Created by Bob de Graaf on 01-10-12.
 //  Copyright GraafICT 2010. All rights reserved.
 
 #import "LocationGetter.h"
