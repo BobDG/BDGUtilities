@@ -93,10 +93,6 @@
         {
             if(completed)
             {
-                if([self.delegate respondsToSelector:@selector(BGSSdismissVC)])
-                {
-                    [self.delegate BGSSdismissVC];
-                }
             }            
         }];
         
