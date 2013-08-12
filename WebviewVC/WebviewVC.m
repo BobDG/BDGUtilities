@@ -8,8 +8,8 @@
 #import "TransparentToolbar.h"
 
 @implementation WebviewVC
-@synthesize urlStr, navTitle, buttonDelay, parent, hideButtons, fullRotation, headersDict, pushedFromNavController;
-@synthesize alwaysReload, popAfterLeaving, htmlStr, appStoreID, mailToAddress, mailBody, mailSubject, delegate;
+@synthesize buttonDelay, parent, hideButtons, fullRotation, headersDict, pushedFromNavController;
+@synthesize alwaysReload, popAfterLeaving, appStoreID, delegate;
 
 -(void)dealloc
 {
@@ -17,10 +17,7 @@
     self.parent = nil;
     self.urlStr = nil;
     self.navTitle = nil;
-    self.mailBody = nil;
     self.appStoreID = nil;
-    self.mailSubject = nil;
-    self.mailToAddress = nil;
 }
 
 #pragma mark Init
@@ -31,9 +28,9 @@
     self.view.backgroundColor = [UIColor blackColor];
     
     //navigation item
-    if(navTitle != nil)
+    if(self.navTitle.length>0)
     {
-        self.title = navTitle;
+        self.title = self.navTitle;
     }
     
     if(!pushedFromNavController)
@@ -179,6 +176,7 @@
             wvc.urlStr = [[inRequest URL] absoluteString];
             wvc.hideButtons = TRUE;
             wvc.parent = self.parent;
+            wvc.barStyle = self.barStyle;
             wvc.title = NSLocalizedStringFromTable(@"FacebookLogin", @"WVCLocalizable", @"");
             wvc.pushedFromNavController = FALSE;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:wvc];
@@ -217,7 +215,7 @@
     if(self.urlStr.length>0)
     {
         //NSLog(@"url string load: %@", self.urlStr);
-        NSURL *url = [NSURL URLWithString:urlStr];
+        NSURL *url = [NSURL URLWithString:self.urlStr];
         NSMutableURLRequest *requestObj = [NSMutableURLRequest requestWithURL:url];
         [requestObj setAllHTTPHeaderFields:headersDict];
         [web loadRequest:requestObj];
@@ -250,8 +248,11 @@
 		controller.mailComposeDelegate = self;
 		[controller setSubject:subject];
 		[controller setMessageBody:body isHTML:isHtml];
+        [controller.navigationBar setBarStyle:self.barStyle];
         if(mailTo.length>0)
+        {
             [controller setToRecipients:[NSArray arrayWithObject:mailTo]];
+        }
         if(controller != nil)
         {
             if(parent.modalViewController)
@@ -268,6 +269,14 @@
 
 -(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
+    if(result == MFMailComposeResultSent)
+    {
+        if(self.mailPopupText.length>0)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:self.mailPopupText delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"WVCLocalizable", @"") otherButtonTitles:nil];
+            [alert show];
+        }
+    }
 	[self.parent dismissModalViewControllerAnimated:YES];
 }
 

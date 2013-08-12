@@ -10,16 +10,6 @@
 
 @interface WebviewVC : UIViewController <MFMailComposeViewControllerDelegate, UIWebViewDelegate>
 {
-    NSString *urlStr;
-    NSString *htmlStr;
-    NSString *navTitle;
-    NSString *appStoreID;
-
-    //Mail
-    NSString *mailBody;
-    NSString *mailSubject;
-    NSString *mailToAddress;
-    
 	UIButton *closeButton;
     UIButton *backButton;
     UIButton *forwButton;
@@ -28,9 +18,9 @@
     
 	UIWebView *web;
     UIViewController *parent;
-    NSMutableDictionary *headersDict;	
+    NSMutableDictionary *headersDict;
     
-    int buttonDelay;    
+    int buttonDelay;
     bool hideButtons;
     bool fullRotation;
     bool alwaysReload;
@@ -43,6 +33,7 @@
 -(void)previousWebPage;
 
 @property(nonatomic,assign) id delegate;
+@property(nonatomic) UIBarStyle barStyle;
 
 @property(nonatomic,retain) NSString *urlStr;
 @property(nonatomic,retain) NSString *htmlStr;
@@ -51,6 +42,7 @@
 @property(nonatomic,retain) NSString *appStoreID;
 @property(nonatomic,retain) NSString *mailSubject;
 @property(nonatomic,retain) NSString *mailToAddress;
+@property(nonatomic,strong) NSString *mailPopupText;
 
 @property(nonatomic,retain) UIViewController *parent;
 @property(nonatomic,strong) NSMutableDictionary *headersDict;

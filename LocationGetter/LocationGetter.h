@@ -22,7 +22,7 @@
 
 -(void)updateLocation;
 
-
+@property(nonatomic) float minHorizontalAccuracy;
 @property(nonatomic) bool stopUpdatingImmediately;
 @property(nonatomic,assign) id<LocationGetterDelegate> delegate;
 

@@ -1,5 +1,5 @@
 //  LocationGetter.m
-//  Created by Bob de Graaf on 01-10-12.
+//  Created by Bob de Graaf on 01-10-10.
 //  Copyright GraafICT 2010. All rights reserved.
 
 #import "LocationGetter.h"
@@ -22,7 +22,7 @@
 {
     self.locationManager = nil;
     locationManager = nil;
-    gpsLoc = nil;   
+    gpsLoc = nil;
 }
 
 #pragma mark initialize
@@ -37,13 +37,14 @@
         locationManager.distanceFilter = 1;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.delegate = self;
+        self.minHorizontalAccuracy = 1000.0f;
         
 #if TARGET_IPHONE_SIMULATOR
         //DLog(@"Setting simulator gps");
         gpsLoc = [[CLLocation alloc] initWithLatitude:51.0405 longitude:3.77699];
 #endif
     }
-    return self;    
+    return self;
 }
 
 -(void)updateLocation
@@ -59,7 +60,7 @@
     else
     {
         NSLog(@"GPS: Enabled");
-        [locationManager startUpdatingLocation];        
+        [locationManager startUpdatingLocation];
     }
 }
 
@@ -69,7 +70,7 @@
     if([self.delegate respondsToSelector:@selector(locationDidChangeAuthorizationStatus:)])
     {
         [self.delegate locationDidChangeAuthorizationStatus:status];
-    }    
+    }
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -78,14 +79,14 @@
     switch([error code])
     {
         case kCLErrorDenied:
-            //Access denied by user            
+            //Access denied by user
             if([self.delegate respondsToSelector:@selector(locationNotAllowed)])
             {
                 [self.delegate performSelector:@selector(locationNotAllowed)];
             }
             break;
         case kCLErrorLocationUnknown:
-            //Hopefully temporary...            
+            //Hopefully temporary...
             if([self.delegate respondsToSelector:@selector(locationFail)])
             {
                 [self.delegate performSelector:@selector(locationFail)];
@@ -107,13 +108,13 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manage didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{    	
+{
     //NSLog(@"Location update: %f,%f, time: %@, speed: %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude, newLocation.timestamp, newLocation.speed);
-    //NSLog(@"HAccuracy = %.0f", newLocation.horizontalAccuracy);    
+    //NSLog(@"HAccuracy = %.0f", newLocation.horizontalAccuracy);
     NSDate* newLocationeventDate = newLocation.timestamp;
     NSTimeInterval howRecentNewLocation = [newLocationeventDate timeIntervalSinceNow];
-    NSLog(@"Got location, recent-ness: %f", howRecentNewLocation);
-    if(howRecentNewLocation < -0.0 && howRecentNewLocation > -10.0)
+    NSLog(@"GPS: Got location, recent-ness: %.2f, accuracy: %.2f", howRecentNewLocation, newLocation.horizontalAccuracy);
+    if((howRecentNewLocation < -0.0 && howRecentNewLocation > -10.0) && (newLocation.horizontalAccuracy >= 0 && newLocation.horizontalAccuracy <= self.minHorizontalAccuracy))
     {
         NSLog(@"GPS: Location updated");
         [self setGpsLoc:newLocation];
