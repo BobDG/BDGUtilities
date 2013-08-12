@@ -67,7 +67,7 @@
     self = [super init];
     if(self != nil)
     {
-        DLog(@"Initializing sounds player...");
+        NSLog(@"Initializing sounds player...");
         
         //Init sound engine
         _soundEngine = [[SoundEngine alloc] init];
@@ -85,7 +85,7 @@
 
 -(void)playSound:(SoundType)soundType
 {
-    if([nsprefs boolForKey:kSound] && soundType<soundsArray.count)
+    if([[NSUserDefaults standardUserDefaults] boolForKey:kSound] && soundType<soundsArray.count)
     {
         [self.soundEngine playSound:[soundsArray objectAtIndex:soundType]];
     }
