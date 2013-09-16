@@ -1,18 +1,16 @@
 //
-//  SoundManager.m
-//  TVGiDS.tv 1.0
+//  SoundPlayer.m
 //
 //  Created by Bob de Graaf on 12-07-13.
 //  Copyright (c) 2013 MobilePioneers. All rights reserved.
 //
 
-#import "BGUtilities.h"
+#import "Constants.h"
 #import "SoundPlayer.h"
 #import "SoundEngine.h"
 
 @interface SoundPlayer ()
 {
-    
 }
 
 @property(nonatomic,strong) SoundEngine *soundEngine;
@@ -56,10 +54,9 @@
     [audioSession setActive: YES error: nil];
 }
 
--(void)loadSound:(NSString *)soundFile
+-(void)loadSound:(NSString *)soundFile forID:(NSString *)soundID
 {
-    [self.soundEngine preloadSound:soundFile withKey:soundFile];
-    [soundsArray addObject:soundFile];
+    [self.soundEngine preloadSound:soundFile withKey:soundID];
 }
 
 -(id)init
@@ -70,36 +67,44 @@
         NSLog(@"Initializing sounds player...");
         
         //Init sound engine
-        _soundEngine = [[SoundEngine alloc] init];
-        
-        //Init category
-        [self loadCategory:AVAudioSessionCategoryPlayback mixWithOthers:TRUE];
-        
-        //Load sounds
-        [self loadSounds];
+        _soundEngine = [[SoundEngine alloc] init];        
     }
     return  self;
 }
 
 #pragma mark Playing
 
--(void)playSound:(SoundType)soundType
+-(void)stopSound:(NSString *)soundID
 {
-    if([[NSUserDefaults standardUserDefaults] boolForKey:kSound] && soundType<soundsArray.count)
+    [self.soundEngine stopSound:soundID];
+}
+
+-(void)playSound:(NSString *)soundID
+{
+    if([[NSUserDefaults standardUserDefaults] boolForKey:kSound])
     {
-        [self.soundEngine playSound:[soundsArray objectAtIndex:soundType]];
+        [self.soundEngine playSound:soundID];
     }
 }
 
-#pragma mark Methods to edit
+-(BOOL)isSoundPlaying:(NSString *)soundID
+{
+    return [self.soundEngine isSoundPlaying:soundID];
+}
 
--(void)loadSounds
-{    
-    //Init array
-    soundsArray = [[NSMutableArray alloc] init];
-    
-    //Normal sounds
-    [self loadSound:@"Sound_Refresh.caf"];
+-(void)changeGainTo:(float)gain forSound:(NSString *)soundID
+{
+    [self.soundEngine changeGainTo:gain ForSound:soundID];
+}
+
+-(void)setLoop:(BOOL)loop forSound:(NSString *)soundID
+{
+    [self.soundEngine loop:loop sound:soundID];
+}
+
+-(void)changePitchTo:(float)pitch forSound:(NSString *)soundID
+{
+    [self.soundEngine changePitchTo:pitch ForSound:soundID];
 }
 
 @end

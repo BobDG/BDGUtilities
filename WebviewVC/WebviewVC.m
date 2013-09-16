@@ -192,6 +192,15 @@
         {
             [self performSelector:@selector(popControllerDelayed) withObject:nil afterDelay:0.5];
         }
+        else
+        {
+            //Check whether I'm a modal viewcontroller
+            if(inType != UIWebViewNavigationTypeLinkClicked && ((self.presentingViewController && self.presentingViewController.modalViewController == self) || (self.navigationController && self.navigationController.presentingViewController && self.navigationController.presentingViewController.modalViewController == self.navigationController)))
+            {
+                NSLog(@"I was presented as a modal viewcontroller, will remove myself");
+                [self dismissModalViewControllerAnimated:TRUE];
+            }
+        }        
 		return NO;
 	}
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
