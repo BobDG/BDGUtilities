@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BGUtilities.h"
+
 //How to use this class?
 //Load category first: [soundPlayer loadCategory:AVAudioSessionCategoryPlayback mixWithOthers:TRUE];
 //Then load sounds like this: [soundPlayer loadSound:@"stringA.caf" forID:kTurnSoundA];
