@@ -65,7 +65,10 @@
 -(void)preloadSound:(NSString *)filename withKey:(NSString *)key
 {
     FISound *sound = [self.soundEngine soundNamed:filename maxPolyphony:4 error:NULL];
-    [soundsDictionary setObject:sound forKey:key];
+    if(sound != nil)
+    {
+        [soundsDictionary setObject:sound forKey:key];
+    }
 }
 
 -(void)playSound:(NSString *)soundName

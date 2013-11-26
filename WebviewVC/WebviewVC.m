@@ -144,11 +144,14 @@
 	{
         if(self.appStoreID.length>0 && [[UIDevice currentDevice] systemVersion].floatValue >= 6.0)
         {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
             if([self.delegate respondsToSelector:@selector(purchaseIAS:)])
             {
                 [self.delegate performSelector:@selector(purchaseIAS:) withObject:self.appStoreID];
                 return NO;
             }
+#pragma clang diagnostic pop
         }
         else if(self.mailToAddress.length>0)
         {

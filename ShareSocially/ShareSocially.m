@@ -6,9 +6,35 @@
 //
 
 #import "ShareSocially.h"
+#import "WhatsAppActivity.h"
+#import "FacebookActivity.h"
+
+#define kWhatsAppUrlScheme @"whatsapp://"
 
 @implementation ShareSocially
 @synthesize delegate;
+
+#pragma mark Init
+
+-(id)init
+{
+    self = [super init];
+    if(self)
+    {
+        //Init excluded array
+        _excludeActivities = @[UIActivityTypeAirDrop, UIActivityTypePrint, UIActivityTypeAddToReadingList, UIActivityTypeAssignToContact, UIActivityTypeCopyToPasteboard, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll];
+    }
+    return self;
+}
+
+#pragma mark Check if services are available
+
+-(BOOL)facebookAvailable
+{
+    return [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook];
+}
+
+#pragma mark Share
 
 -(void)shareUsingServiceType:(NSString *)serviceType text:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image
 {
@@ -74,7 +100,7 @@
     [self shareUsingServiceType:SLServiceTypeSinaWeibo text:text urlStr:urlStr image:image];
 }
 
--(void)shareUsingActivityController:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image
+-(void)shareUsingActivityController:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image whatsapp:(BOOL)whatsapp facebook:(BOOL)facebook
 {
     if([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0)
     {
@@ -86,13 +112,26 @@
         if(nil != image)
             [activities addObject:image];
         
-        UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:activities applicationActivities:nil];
+        NSMutableArray *applicationActivities = [[NSMutableArray alloc] init];
+        if(whatsapp && [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:kWhatsAppUrlScheme]])
+        {
+            [applicationActivities addObject:[[WhatsAppActivity alloc] init]];
+        }
+        
+        if(facebook && ![SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook])
+        {
+            [applicationActivities addObject:[[FacebookActivity alloc] init]];
+        }
+        
+        UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:activities applicationActivities:applicationActivities];
+        controller.excludedActivityTypes = self.excludeActivities;
         
         //Completion handler
         [controller setCompletionHandler:^(NSString *activityType, BOOL completed)
         {
             if(completed)
             {
+                
             }            
         }];
         
@@ -110,6 +149,11 @@
             [self.delegate BGSSshareFailed];
         }
     }
+}
+
+-(void)shareUsingActivityController:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image
+{
+    [self shareUsingActivityController:text urlStr:urlStr image:image whatsapp:FALSE facebook:FALSE];
 }
 
 #pragma mark Email

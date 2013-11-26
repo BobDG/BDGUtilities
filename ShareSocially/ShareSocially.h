@@ -25,13 +25,16 @@
     
 }
 
+@property(nonatomic,strong) NSArray *excludeActivities;
 @property(nonatomic,assign) id<BGShareDelegate> delegate;
 
+-(BOOL)facebookAvailable;
 -(void)shareSMS:(NSString *)message recipient:(NSArray *)recipients;
 -(void)shareTwitter:(NSString *)text urlStr:(NSString *)url image:(UIImage *)image;
 -(void)shareFacebook:(NSString *)text urlStr:(NSString *)url image:(UIImage *)image;
 -(void)shareWeibo:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image;
 -(void)shareUsingActivityController:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image;
 -(void)shareEmail:(NSString*)mailSubject mailBody:(NSString*)mailBody recipients:(NSArray *)recipients isHTML:(BOOL)isHTML;
+-(void)shareUsingActivityController:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image whatsapp:(BOOL)whatsapp facebook:(BOOL)facebook;
 
 @end
