@@ -183,7 +183,10 @@
             wvc.title = NSLocalizedStringFromTable(@"FacebookLogin", @"WVCLocalizable", @"");
             wvc.pushedFromNavController = FALSE;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:wvc];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [self.parent presentModalViewController:nav animated:TRUE];
+#pragma clang diagnostic pop
             return NO;
         }
         return TRUE;
@@ -198,11 +201,14 @@
         else
         {
             //Check whether I'm a modal viewcontroller
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             if(inType != UIWebViewNavigationTypeLinkClicked && ((self.presentingViewController && self.presentingViewController.modalViewController == self) || (self.navigationController && self.navigationController.presentingViewController && self.navigationController.presentingViewController.modalViewController == self.navigationController)))
             {
                 NSLog(@"I was presented as a modal viewcontroller, will remove myself");
                 [self dismissModalViewControllerAnimated:TRUE];
             }
+#pragma clang diagnostic pop
         }        
 		return NO;
 	}
@@ -267,10 +273,13 @@
         }
         if(controller != nil)
         {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             if(parent.modalViewController)
                 [self.parent.modalViewController presentModalViewController:controller animated:TRUE];
             else
                 [self.parent presentModalViewController:controller animated:YES];
+#pragma clang diagnostic pop
         }
 	}
 	@catch (NSException * e)
@@ -289,7 +298,10 @@
             [alert show];
         }
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[self.parent dismissModalViewControllerAnimated:YES];
+#pragma clang diagnostic pop
 }
 
 #pragma mark Button Actions
@@ -320,7 +332,10 @@
 -(void)done
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[self dismissModalViewControllerAnimated:YES];
+#pragma clang diagnostic push
 }
 
 -(void)setButtonsEnabled

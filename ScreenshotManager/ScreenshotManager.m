@@ -12,25 +12,15 @@
 
 +(UIImage *)getScreenshotFromView:(UIView *)v
 {
-    CGFloat scale = 1.0;
-    if([[UIScreen mainScreen]respondsToSelector:@selector(scale)])
-    {        
-        CGFloat tmp = [[UIScreen mainScreen]scale];
-        if (tmp > 1.5)
-        {
-            scale = 2.0;    
-        }
-    }      
-    if(scale > 1.5)
+    UIGraphicsBeginImageContextWithOptions(v.frame.size, NO, 0.0f);
+    if([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)])
     {
-        UIGraphicsBeginImageContextWithOptions(v.frame.size, NO, scale);
-    } 
+        [v drawViewHierarchyInRect:v.bounds afterScreenUpdates:NO];
+    }
     else
     {
-        UIGraphicsBeginImageContext(v.frame.size);
-    }    
-    
-    [v.layer renderInContext:UIGraphicsGetCurrentContext()];    
+        [v.layer renderInContext:UIGraphicsGetCurrentContext()];
+    }
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return screenshot;
@@ -56,7 +46,14 @@
         UIGraphicsBeginImageContext(v.frame.size);
     }    
     
-    [v.layer renderInContext:UIGraphicsGetCurrentContext()];    
+    if([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)])
+    {
+        [v drawViewHierarchyInRect:v.bounds afterScreenUpdates:NO];
+    }
+    else
+    {
+        [v.layer renderInContext:UIGraphicsGetCurrentContext()];
+    }
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();    
     
@@ -106,7 +103,14 @@
         UIGraphicsBeginImageContext(v.frame.size);
     }    
     
-    [v.layer renderInContext:UIGraphicsGetCurrentContext()];    
+    if([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)])
+    {
+        [v drawViewHierarchyInRect:v.bounds afterScreenUpdates:NO];
+    }
+    else
+    {
+        [v.layer renderInContext:UIGraphicsGetCurrentContext()];
+    }
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext(); 
     
@@ -149,7 +153,14 @@
         UIGraphicsBeginImageContext(v.frame.size);
     }    
     
-    [v.layer renderInContext:UIGraphicsGetCurrentContext()];    
+    if([self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)])
+    {
+        [v drawViewHierarchyInRect:v.bounds afterScreenUpdates:NO];
+    }
+    else
+    {
+        [v.layer renderInContext:UIGraphicsGetCurrentContext()];
+    }
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext(); 
 
