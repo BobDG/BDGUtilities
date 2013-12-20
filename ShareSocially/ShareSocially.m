@@ -100,6 +100,21 @@
     [self shareUsingServiceType:SLServiceTypeSinaWeibo text:text urlStr:urlStr image:image];
 }
 
+-(void)shareWhatsapp:(NSString *)text urlStr:(NSString *)urlStr
+{
+    WhatsAppActivity *activity = [[WhatsAppActivity alloc] init];
+    NSMutableArray *activities = [[NSMutableArray alloc] init];
+    if(text.length>0)
+    {
+        [activities addObject:text];
+    }
+    if(urlStr.length>0)
+    {
+        [activities addObject:[NSURL URLWithString:urlStr]];
+    }
+    [activity prepareWithActivityItems:activities];
+}
+
 -(void)shareUsingActivityController:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image whatsapp:(BOOL)whatsapp facebook:(BOOL)facebook
 {
     if([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0)

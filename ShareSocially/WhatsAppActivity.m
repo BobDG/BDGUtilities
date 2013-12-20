@@ -46,7 +46,6 @@
     NSString *urlStr = nil;
     for(id activityItem in activityItems)
     {
-        NSLog(@"ActivityItem class: %@", [activityItem class]);
         if([activityItem isKindOfClass:[NSString class]])
         {
             text = [self stringByEncodingString:activityItem];
@@ -68,7 +67,7 @@
     }
     if(urlStr.length>0)
     {
-        whatsAppURL = [whatsAppURL stringByAppendingFormat:@" Link:%@", urlStr];
+        whatsAppURL = [whatsAppURL stringByAppendingFormat:@"%%20Link:%%20%@", urlStr];
     }
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:whatsAppURL]];

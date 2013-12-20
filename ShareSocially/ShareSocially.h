@@ -29,6 +29,7 @@
 @property(nonatomic,assign) id<BGShareDelegate> delegate;
 
 -(BOOL)facebookAvailable;
+-(void)shareWhatsapp:(NSString *)text urlStr:(NSString *)urlStr;
 -(void)shareSMS:(NSString *)message recipient:(NSArray *)recipients;
 -(void)shareTwitter:(NSString *)text urlStr:(NSString *)url image:(UIImage *)image;
 -(void)shareFacebook:(NSString *)text urlStr:(NSString *)url image:(UIImage *)image;
