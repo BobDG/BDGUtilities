@@ -10,7 +10,8 @@
 
 @interface UIImage (Helper)
 
-+(UIImage *)imageNamed:(NSString *)name deviceSpecific:(BOOL)deviceSpecific;
++(UIImage *)imageNamed:(NSString *)name deviceSpecific:(BOOL)deviceSpecific extension:(NSString *)extension;
+-(UIImage *)blurredImage:(CGFloat)blurAmount;
 -(UIImage *)imageAtRect:(CGRect)rect;
 -(UIImage *)imageByScalingProportionallyToMinimumSize:(CGSize)targetSize;
 -(UIImage *)imageByScalingProportionallyToSize:(CGSize)targetSize;

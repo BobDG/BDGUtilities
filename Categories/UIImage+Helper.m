@@ -5,6 +5,9 @@
 //  Copyright 2009 Catamount Software. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+#import <Accelerate/Accelerate.h>
+
 #import "UIImage+Helper.h"
 
 CGFloat DegreesToRadians(CGFloat degrees)
@@ -15,7 +18,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
 
 @implementation UIImage (Helper)
 
-+(UIImage *)imageNamed:(NSString *)name deviceSpecific:(BOOL)deviceSpecific
++(UIImage *)imageNamed:(NSString *)name deviceSpecific:(BOOL)deviceSpecific extension:(NSString *)extension
 {
     if(deviceSpecific)
     {
@@ -28,7 +31,75 @@ CGFloat RadiansToDegrees(CGFloat radians)
             name = [name stringByAppendingString:@"_5"];
         }
     }
-    return  [self imageNamed:name];
+    return  [self imageNamed:[NSString stringWithFormat:@"%@.%@", name, extension]];
+}
+
+-(UIImage *)blurredImage:(CGFloat)blurAmount
+{
+    if (blurAmount < 0.0 || blurAmount > 1.0) {
+        blurAmount = 0.5;
+    }
+    
+    int boxSize = (int)(blurAmount * 40);
+    boxSize = boxSize - (boxSize % 2) + 1;
+    
+    CGImageRef img = self.CGImage;
+    
+    vImage_Buffer inBuffer, outBuffer;
+    vImage_Error error;
+    
+    void *pixelBuffer;
+    
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    
+    inBuffer.width = CGImageGetWidth(img);
+    inBuffer.height = CGImageGetHeight(img);
+    inBuffer.rowBytes = CGImageGetBytesPerRow(img);
+    
+    inBuffer.data = (void*)CFDataGetBytePtr(inBitmapData);
+    
+    pixelBuffer = malloc(CGImageGetBytesPerRow(img) * CGImageGetHeight(img));
+    
+    outBuffer.data = pixelBuffer;
+    outBuffer.width = CGImageGetWidth(img);
+    outBuffer.height = CGImageGetHeight(img);
+    outBuffer.rowBytes = CGImageGetBytesPerRow(img);
+    
+    error = vImageBoxConvolve_ARGB8888(&inBuffer, &outBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+    
+    if (!error) {
+        error = vImageBoxConvolve_ARGB8888(&outBuffer, &inBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+        
+        if (!error) {
+            error = vImageBoxConvolve_ARGB8888(&inBuffer, &outBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+        }
+    }
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    CGContextRef ctx = CGBitmapContextCreate(outBuffer.data,
+                                             outBuffer.width,
+                                             outBuffer.height,
+                                             8,
+                                             outBuffer.rowBytes,
+                                             colorSpace,
+                                             (CGBitmapInfo)kCGImageAlphaNoneSkipLast);
+    
+    CGImageRef imageRef = CGBitmapContextCreateImage (ctx);
+    
+    UIImage *returnImage = [UIImage imageWithCGImage:imageRef];
+    
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpace);
+    
+    free(pixelBuffer);
+    CFRelease(inBitmapData);
+    
+    CGColorSpaceRelease(colorSpace);
+    CGImageRelease(imageRef);
+    
+    return returnImage;
 }
 
 -(UIImage *)imageAtRect:(CGRect)rect
