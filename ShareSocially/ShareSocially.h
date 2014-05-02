@@ -10,13 +10,13 @@
 #import <Foundation/Foundation.h>
 
 @protocol BGShareDelegate <NSObject>
--(void)BGSSpresentVC:(UIViewController *)viewController;
--(void)BGSSpresentActivityVC:(UIViewController *)viewController;
--(void)BGSSdismissVC;
 @optional
+-(void)BGSSdismissVC;
 -(void)BGSSshareFailed;
 -(void)BGSSshareCompleted;
 -(void)BGSSshareCancelled;
+-(void)BGSSpresentVC:(UIViewController *)viewController;
+-(void)BGSSpresentDocumentVC:(UIDocumentInteractionController *)controller;
 @end
 
 
@@ -31,6 +31,7 @@
 -(BOOL)facebookAvailable;
 -(void)shareWhatsapp:(NSString *)text urlStr:(NSString *)urlStr;
 -(void)shareSMS:(NSString *)message recipient:(NSArray *)recipients;
+-(void)shareUsingDocumentController:(UIImage *)image fileName:(NSString *)fileName;
 -(void)shareTwitter:(NSString *)text urlStr:(NSString *)url image:(UIImage *)image;
 -(void)shareFacebook:(NSString *)text urlStr:(NSString *)url image:(UIImage *)image;
 -(void)shareWeibo:(NSString *)text urlStr:(NSString *)urlStr image:(UIImage *)image;

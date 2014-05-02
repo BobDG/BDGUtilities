@@ -11,6 +11,15 @@
 
 #define kWhatsAppUrlScheme @"whatsapp://"
 
+@interface ShareSocially () <UIDocumentInteractionControllerDelegate>
+{
+    
+}
+
+@property(nonatomic,strong) UIDocumentInteractionController *documentInteractionController;
+
+@end
+
 @implementation ShareSocially
 @synthesize delegate;
 
@@ -151,9 +160,9 @@
         }];
         
         //Presenting
-        if([self.delegate respondsToSelector:@selector(BGSSpresentActivityVC:)])
+        if([self.delegate respondsToSelector:@selector(BGSSpresentVC:)])
         {
-            [self.delegate BGSSpresentActivityVC:controller];
+            [self.delegate BGSSpresentVC:controller];
         }
     }
     else
@@ -170,6 +179,25 @@
 {
     [self shareUsingActivityController:text urlStr:urlStr image:image whatsapp:FALSE facebook:FALSE];
 }
+
+-(void)shareUsingDocumentController:(UIImage *)image fileName:(NSString *)fileName
+{
+    self.documentInteractionController = nil;
+    _documentInteractionController = [[UIDocumentInteractionController alloc] init];
+    NSString *imgPath = [NSString stringWithFormat:@"%@/%@.jpg", [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"], fileName];
+    [UIImageJPEGRepresentation(image, 1.0f) writeToFile:imgPath atomically:TRUE];
+    self.documentInteractionController.URL = [NSURL fileURLWithPath:imgPath];
+    self.documentInteractionController.UTI = @"public.jpeg";
+    self.documentInteractionController.delegate = self;
+    
+    //Presenting
+    if([self.delegate respondsToSelector:@selector(BGSSpresentDocumentVC:)]) {
+        [self.delegate BGSSpresentDocumentVC:self.documentInteractionController];
+    }
+}
+
+#pragma mark DocumentInterActionController methods
+
 
 #pragma mark Email
 
