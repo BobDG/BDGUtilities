@@ -3,7 +3,7 @@
 //  MPAds
 //
 //  Created by Bob de Graaf on 28-05-13.
-//  Copyright (c) 2013 MobilePioneers. All rights reserved.
+//  Copyright (c) 2014 GraafICT. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -27,7 +27,8 @@
 -(void)buyAppInApp:(NSString *)appID;
 
 @property(nonatomic,assign) id<IASDelegate> delegate;
-@property(nonatomic,strong) NSString *tradeDoublerPrefix;
+@property(nonatomic,strong) NSString *affiliateID;
+
 
 +(InAppStore *)sharedInAppStore;
 

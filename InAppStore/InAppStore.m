@@ -3,7 +3,7 @@
 //  MPAds
 //
 //  Created by Bob de Graaf on 28-05-13.
-//  Copyright (c) 2013 MobilePioneers. All rights reserved.
+//  Copyright (c) 2014 GraafICT. All rights reserved.
 //
 
 #import "InAppStore.h"
@@ -23,9 +23,8 @@
 
 -(void)openURL:(NSString *)urlStr
 {
-    if(self.tradeDoublerPrefix.length>0)
-    {
-        urlStr = [NSString stringWithFormat:@"%@%@", self.tradeDoublerPrefix, urlStr];
+    if(self.affiliateID.length>0) {
+        urlStr = [NSString stringWithFormat:@"%@?at=%@", urlStr, self.affiliateID];
     }
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
 }
