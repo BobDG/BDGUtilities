@@ -42,6 +42,17 @@
 	return false;
 }
 
++(BOOL)checkDateIsTheSameDay:(NSDate *)date date2:(NSDate *)date2
+{
+    NSDateComponents *date1Comps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+	NSDateComponents *date2Comps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date2];
+	if([date1Comps day] == [date2Comps day] && [date1Comps month] == [date2Comps month] && [date1Comps year] == [date2Comps year])
+	{
+		return true;
+	}
+	return false;
+}
+
 +(BOOL)checkDateIsTodayIncludingNight:(NSDate *)date
 {
     date = [date dateByAddingTimeInterval:-(6*86400)];

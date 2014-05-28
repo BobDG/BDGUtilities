@@ -1,5 +1,5 @@
 //
-//  BGUtilities.h
+//  BDGUtilities.h
 //
 //  Created by Bob de Graaf on 23-09-12.
 //  Copyright (c) 2012 GraafICT. All rights reserved.

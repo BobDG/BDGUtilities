@@ -3,7 +3,7 @@
 //  MovementAnalyzer
 //
 //  Created by Bob de Graaf on 10-04-12.
-//  Copyright (c) 2012 Mobile Pioneers. All rights reserved.
+//  Copyright (c) 2012 GraafICT. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -18,5 +18,6 @@
 -(UIImage *)imageByScalingToSize:(CGSize)targetSize;
 -(UIImage *)imageRotatedByRadians:(CGFloat)radians;
 -(UIImage *)imageRotatedByDegrees:(CGFloat)degrees;
+-(UIImage *)maskImage:(UIImage *)image withMask:(UIImage *)maskImage;
 
 @end

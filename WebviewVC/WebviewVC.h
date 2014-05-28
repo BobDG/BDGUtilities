@@ -8,6 +8,14 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 
+@class WebviewVC;
+
+@protocol WebviewVCDelegate <NSObject>
+@optional
+-(void)WVCdismissed:(WebviewVC *)webviewVC;
+-(void)purchaseIAS:(NSString *)appStoreID;
+@end
+
 @interface WebviewVC : UIViewController <MFMailComposeViewControllerDelegate, UIWebViewDelegate>
 {
 	UIButton *closeButton;
@@ -32,7 +40,7 @@
 -(void)nextWebpage;
 -(void)previousWebPage;
 
-@property(nonatomic,assign) id delegate;
+@property(nonatomic,assign) id<WebviewVCDelegate> delegate;
 @property(nonatomic) UIBarStyle barStyle;
 
 @property(nonatomic,retain) NSString *urlStr;

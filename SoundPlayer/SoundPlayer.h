@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BGUtilities.h"
+#import "BDGUtilities.h"
 
 //How to use this class?
 //Load category first: [soundPlayer loadCategory:AVAudioSessionCategoryPlayback mixWithOthers:TRUE];

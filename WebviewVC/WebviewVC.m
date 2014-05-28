@@ -331,6 +331,9 @@
 
 -(void)done
 {
+    if([self.delegate respondsToSelector:@selector(WVCdismissed:)]) {
+        [self.delegate WVCdismissed:self];
+    }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
