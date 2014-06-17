@@ -53,6 +53,16 @@
 	return false;
 }
 
++(BOOL)checkDateIsTheSameYear:(NSDate *)date
+{
+    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:date];
+	NSDateComponents *today = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:[NSDate date]];
+	if([today year] == [otherDay year]) {
+		return true;
+	}
+	return false;
+}
+
 +(BOOL)checkDateIsTodayIncludingNight:(NSDate *)date
 {
     date = [date dateByAddingTimeInterval:-(6*86400)];
@@ -142,6 +152,17 @@
         return true;
     }    
     return false;
+}
+
++(BOOL)date:(NSDate *)date isBetweenDate:(NSDate *)beginDate andDate:(NSDate *)endDate
+{
+    if([date compare:beginDate] == NSOrderedAscending)
+    	return NO;
+    
+    if([date compare:endDate] == NSOrderedDescending)
+    	return NO;
+    
+    return YES;
 }
 
 @end

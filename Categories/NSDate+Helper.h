@@ -13,6 +13,7 @@
 +(BOOL)checkDateIsToday:(NSDate *)date;
 +(BOOL)checkDateIsTomorrow:(NSDate *)date;
 +(BOOL)checkDateIsYesterday:(NSDate *)date;
++(BOOL)checkDateIsTheSameYear:(NSDate *)date;
 +(BOOL)checkDateTenMinutesLater:(NSDate *)date;
 +(BOOL)checkDateTwelveHoursLater:(NSDate *)date;
 +(BOOL)checkDateIsDayAfterTomorrow:(NSDate *)date;
@@ -20,5 +21,6 @@
 +(BOOL)checkDateIsTodayIncludingNight:(NSDate *)date;
 +(BOOL)checkDateLaterThan:(int)seconds withDate:(NSDate *)date;
 +(BOOL)checkDateIsTheSameDay:(NSDate *)date date2:(NSDate *)date2;
++(BOOL)date:(NSDate *)date isBetweenDate:(NSDate *)beginDate andDate:(NSDate *)endDate;
 
 @end
