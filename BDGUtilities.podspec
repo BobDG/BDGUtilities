@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name           	= 'BDGUtilities'
-  s.version        	= '0.0.25’
+  s.version        	= '0.0.26'
   s.summary        	= 'xCode Utilities'
   s.homepage       	= 'https://github.com/BobDG/BDGUtilities'
   s.authors        	= {'Bob de Graaf' => 'graafict@gmail.com'}
   s.license 		= 'MIT'
-  s.source         	= { :git => 'https://github.com/BobDG/BDGUtilities.git', :tag => '0.0.25’ }
+  s.source         	= { :git => 'https://github.com/BobDG/BDGUtilities.git', :tag => '0.0.26' }
   s.source_files   	= '**/*.{h,m}'
   s.resources          = ['**/*.{png}', '**/*.lproj']
   s.frameworks 	    	= 'StoreKit', 'CoreLocation', 'MessageUI', 'OpenAl', 'AVFoundation', 'AudioToolbox'
