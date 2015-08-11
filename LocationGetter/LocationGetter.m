@@ -34,6 +34,13 @@
     {
         NSLog(@"GPS: Initializing...");
         locationManager = [[CLLocationManager alloc] init];
+        
+        //Request authorization (used in iOS 8).
+        if([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+            NSLog(@"REQUEST WHENINUSE!");
+            [locationManager requestWhenInUseAuthorization];
+        }
+        
         locationManager.distanceFilter = 1;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.delegate = self;
@@ -60,6 +67,7 @@
     else
     {
         NSLog(@"GPS: Enabled");
+        
         [locationManager startUpdatingLocation];
     }
 }
@@ -130,7 +138,6 @@
 }
 
 @end
-
 
 
 

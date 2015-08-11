@@ -113,19 +113,19 @@
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	//[self performSelector:@selector(loadURL) withObject:nil afterDelay:0.01];
+    //[self performSelector:@selector(loadURL) withObject:nil afterDelay:0.01];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	[self performSelector:@selector(loadURL) withObject:nil afterDelay:0.01];
+    [self performSelector:@selector(loadURL) withObject:nil afterDelay:0.01];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     web.delegate = nil;
 }
 
@@ -141,7 +141,7 @@
 {
     //First check if we should just open the AppStore
     if(inType == UIWebViewNavigationTypeLinkClicked)
-	{
+    {
         if(self.appStoreID.length>0 && [[UIDevice currentDevice] systemVersion].floatValue >= 6.0)
         {
 #pragma clang diagnostic push
@@ -161,18 +161,18 @@
     }
     
     //NSLog(@"Start: %@", [[inRequest URL] absoluteString]);
-	bool safari = false;
-	if([[[inRequest URL] absoluteString] rangeOfString:@"itunes.apple.com"].location != NSNotFound)
-	{
-		safari = true;
-	}
-	else if([[[inRequest URL] absoluteString] rangeOfString:@"openinsafari"].location != NSNotFound)
-	{
-		safari = true;
-	}
-	else if([[[inRequest URL] absoluteString] isEqualToString:@"https://m.facebook.com/plugins/login_success.php"])
-	{
-		//Open facebook login in ModalViewController
+    bool safari = false;
+    if([[[inRequest URL] absoluteString] rangeOfString:@"itunes.apple.com"].location != NSNotFound)
+    {
+        safari = true;
+    }
+    else if([[[inRequest URL] absoluteString] rangeOfString:@"openinsafari"].location != NSNotFound)
+    {
+        safari = true;
+    }
+    else if([[[inRequest URL] absoluteString] isEqualToString:@"https://m.facebook.com/plugins/login_success.php"])
+    {
+        //Open facebook login in ModalViewController
         if(![self.title isEqualToString:NSLocalizedStringFromTable(@"FacebookLogin", @"WVCLocalizable", @"")])
         {
             WebviewVC *wvc = [[WebviewVC alloc] init];
@@ -190,10 +190,10 @@
             return NO;
         }
         return TRUE;
-	}
-	if(safari)
-	{
-		[[UIApplication sharedApplication] openURL:[inRequest URL]];
+    }
+    if(safari)
+    {
+        [[UIApplication sharedApplication] openURL:[inRequest URL]];
         if(popAfterLeaving)
         {
             [self performSelector:@selector(popControllerDelayed) withObject:nil afterDelay:0.5];
@@ -209,11 +209,11 @@
                 [self dismissModalViewControllerAnimated:TRUE];
             }
 #pragma clang diagnostic pop
-        }        
-		return NO;
-	}
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	return YES;
+        }
+        return NO;
+    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    return YES;
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -225,7 +225,7 @@
 -(void)webViewDidFinishLoad:(UIWebView *)w
 {
     //NSLog(@"Finish");
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 -(void)loadURL
@@ -249,23 +249,44 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	// NO = 0, YES = 1
-	if(buttonIndex == 1)
-	{
-		[[UIApplication sharedApplication] openURL:web.request.URL];
-	}
+    // NO = 0, YES = 1
+    if(buttonIndex == 1)
+    {
+        [[UIApplication sharedApplication] openURL:web.request.URL];
+    }
+}
+
+#pragma mark Measuring
+
+-(void)startMeasuring:(NSString *)urlstr
+{
+    @autoreleasepool
+    {
+        //NSLog(@"Start measuring URL: %@", urlstr);
+        NSError *error;
+        NSURLResponse *response;
+        [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlstr]] returningResponse:&response error:&error];
+        if(error != nil)
+        {
+            //NSLog(@"Error measuring: %@", [error description]);
+        }
+        else
+        {
+            //NSLog(@"Succesfully measured!");
+        }
+    }
 }
 
 #pragma mark email
 
 -(void)openInAppEmail:(NSString*)subject mailBody:(NSString*)body mailTo:(NSString *)mailTo isHtml:(BOOL)isHtml
 {
-	@try
-	{
-		MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
-		controller.mailComposeDelegate = self;
-		[controller setSubject:subject];
-		[controller setMessageBody:body isHTML:isHtml];
+    @try
+    {
+        MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
+        controller.mailComposeDelegate = self;
+        [controller setSubject:subject];
+        [controller setMessageBody:body isHTML:isHtml];
         [controller.navigationBar setBarStyle:self.barStyle];
         if(mailTo.length>0)
         {
@@ -273,6 +294,9 @@
         }
         if(controller != nil)
         {
+            if(self.mailOpenMeasureURL.length>0) {
+                [self startMeasuring:self.mailOpenMeasureURL];
+            }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             if(parent.modalViewController)
@@ -281,11 +305,11 @@
                 [self.parent presentModalViewController:controller animated:YES];
 #pragma clang diagnostic pop
         }
-	}
-	@catch (NSException * e)
-	{
+    }
+    @catch (NSException * e)
+    {
         NSLog(@"Mail account niet actief, Apple geeft vanzelf bericht. %@", [e description]);
-	}
+    }
 }
 
 -(void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -297,10 +321,13 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:self.mailPopupText delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"WVCLocalizable", @"") otherButtonTitles:nil];
             [alert show];
         }
+        if(self.mailSentMeasureURL.length>0) {
+            [self startMeasuring:self.mailSentMeasureURL];
+        }
     }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-	[self.parent dismissModalViewControllerAnimated:YES];
+    [self.parent dismissModalViewControllerAnimated:YES];
 #pragma clang diagnostic pop
 }
 
@@ -308,9 +335,9 @@
 
 -(void)openMail
 {
-	NSString *pag = [web.request.URL absoluteString];
-	NSString *subject = NSLocalizedStringFromTable(@"PageLink", @"WVCLocalizable", @"");
-	[self openInAppEmail:subject mailBody:pag mailTo:nil isHtml:FALSE];
+    NSString *pag = [web.request.URL absoluteString];
+    NSString *subject = NSLocalizedStringFromTable(@"PageLink", @"WVCLocalizable", @"");
+    [self openInAppEmail:subject mailBody:pag mailTo:nil isHtml:FALSE];
 }
 
 -(void)nextWebpage
@@ -325,8 +352,8 @@
 
 -(void)openSafari
 {
-	UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"OpenInSafari", @"WVCLocalizable", @"") message:NSLocalizedStringFromTable(@"OpenInSafariDetails", @"WVCLocalizable", @"") delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"WVCLocalizable", @"") otherButtonTitles:NSLocalizedStringFromTable(@"Yes", @"WVCLocalizable", @""), nil];
-	[a show];
+    UIAlertView *a = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"OpenInSafari", @"WVCLocalizable", @"") message:NSLocalizedStringFromTable(@"OpenInSafariDetails", @"WVCLocalizable", @"") delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"WVCLocalizable", @"") otherButtonTitles:NSLocalizedStringFromTable(@"Yes", @"WVCLocalizable", @""), nil];
+    [a show];
 }
 
 -(void)done
@@ -337,7 +364,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-	[self dismissModalViewControllerAnimated:YES];
+    [self dismissModalViewControllerAnimated:YES];
 #pragma clang diagnostic push
 }
 
@@ -376,7 +403,6 @@
 }
 
 @end
-
 
 
 

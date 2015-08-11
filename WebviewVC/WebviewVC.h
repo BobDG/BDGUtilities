@@ -18,13 +18,13 @@
 
 @interface WebviewVC : UIViewController <MFMailComposeViewControllerDelegate, UIWebViewDelegate>
 {
-	UIButton *closeButton;
+    UIButton *closeButton;
     UIButton *backButton;
     UIButton *forwButton;
     UIButton *mailButton;
     UIButton *safaButton;
     
-	UIWebView *web;
+    UIWebView *web;
     UIViewController *parent;
     NSMutableDictionary *headersDict;
     
@@ -51,6 +51,8 @@
 @property(nonatomic,retain) NSString *mailSubject;
 @property(nonatomic,retain) NSString *mailToAddress;
 @property(nonatomic,strong) NSString *mailPopupText;
+@property(nonatomic,strong) NSString *mailOpenMeasureURL;
+@property(nonatomic,strong) NSString *mailSentMeasureURL;
 
 @property(nonatomic,retain) UIViewController *parent;
 @property(nonatomic,strong) NSMutableDictionary *headersDict;
