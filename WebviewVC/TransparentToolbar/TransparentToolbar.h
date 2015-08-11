@@ -6,6 +6,7 @@
 //  Copyright 2011 Mobile Pioneers. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
 @interface TransparentToolbar : UIToolbar

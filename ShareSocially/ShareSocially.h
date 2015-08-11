@@ -5,6 +5,7 @@
 //  Copyright (c) 2012 GraafICT. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <Social/Social.h>
 #import <MessageUI/MessageUI.h>
 #import <Foundation/Foundation.h>

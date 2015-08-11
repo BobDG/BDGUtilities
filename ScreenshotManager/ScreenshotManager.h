@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Mobile Pioneers. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 
