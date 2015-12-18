@@ -39,7 +39,7 @@
         closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         closeButton.frame = CGRectMake(0, 0, 24, 24);
         closeButton.showsTouchWhenHighlighted = TRUE;
-        [closeButton setImage:[UIImage imageNamed:@"WVC_Exit.png"] forState:UIControlStateNormal];
+        [closeButton setImage:[UIImage imageNamed:@"WVC_Exit.png" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:closeButton];
     }
@@ -58,7 +58,7 @@
         backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         backButton.frame = CGRectMake(0, 0, 25, 25);
         backButton.showsTouchWhenHighlighted = TRUE;
-        [backButton setImage:[UIImage imageNamed:@"WVC_Back.png"] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"WVC_Back.png" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         [backButton addTarget:web action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
         
@@ -66,14 +66,14 @@
         forwButton = [UIButton buttonWithType:UIButtonTypeCustom];
         forwButton.frame = CGRectMake(0, 0, 25, 25);
         forwButton.showsTouchWhenHighlighted = TRUE;
-        [forwButton setImage:[UIImage imageNamed:@"WVC_Forward.png"] forState:UIControlStateNormal];
+        [forwButton setImage:[UIImage imageNamed:@"WVC_Forward.png" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         [forwButton addTarget:web action:@selector(goForward) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *forwItem = [[UIBarButtonItem alloc] initWithCustomView:forwButton];
         
         //mail button
         mailButton = [UIButton buttonWithType:UIButtonTypeCustom];
         mailButton.frame = CGRectMake(0, 0, 24, 16);
-        [mailButton setImage:[UIImage imageNamed:@"WVC_Mail.png"] forState:UIControlStateNormal];
+        [mailButton setImage:[UIImage imageNamed:@"WVC_Mail.png" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         [mailButton addTarget:self action:@selector(openMail) forControlEvents:UIControlEventTouchUpInside];
         mailButton.showsTouchWhenHighlighted = TRUE;
         UIBarButtonItem *mailItem = [[UIBarButtonItem alloc] initWithCustomView:mailButton];
@@ -82,7 +82,7 @@
         safaButton = [UIButton buttonWithType:UIButtonTypeCustom];
         safaButton.frame = CGRectMake(0, 0, 24, 24);
         safaButton.showsTouchWhenHighlighted = TRUE;
-        [safaButton setImage:[UIImage imageNamed:@"WVC_Safari.png"] forState:UIControlStateNormal];
+        [safaButton setImage:[UIImage imageNamed:@"WVC_Safari.png" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         [safaButton addTarget:self action:@selector(openSafari) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *safaItem = [[UIBarButtonItem alloc] initWithCustomView:safaButton];
         
