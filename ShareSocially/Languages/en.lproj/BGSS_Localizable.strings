@@ -1,7 +1,0 @@
-/* Localized versions of Info.plist keys */
-
-"OK"                        =           "OK";
-"BGSSAlertIOS6"             =           "For this feature you need at least iOS 6.0, please update your device!";
-"BGSSAlertSMSFail"          =           "Creating text message failed, is this device capable of sending text messages?";
-"BGSSAlertEmailFail"        =           "Creating e-mail failed, are there any e-mail accounts configured on this device?";
-
