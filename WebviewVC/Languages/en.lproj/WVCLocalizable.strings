@@ -1,8 +1,0 @@
-/* Localized versions of Strings */
-
-"Yes"                   =       "Yes";
-"Cancel"                =       "Cancel";
-"PageLink"              =       "Pagelink";
-"FacebookLogin"         =       "Facebook Login";
-"OpenInSafari"          =       "Open with Safari";
-"OpenInSafariDetails"   =       "This link will be opened in Safari and leave this App, are you sure?";
