@@ -1,8 +1,0 @@
-/* Localized versions of Strings */
-
-"Yes"                   =       "Ja";
-"Cancel"                =       "Annuleer";
-"PageLink"              =       "Paginalink";
-"FacebookLogin"         =       "Facebook Login";
-"OpenInSafari"          =       "Open in Safari";
-"OpenInSafariDetails"   =       "Deze link zal worden geopend in Safari en deze applicatie verlaten, wil je doorgaan?";
